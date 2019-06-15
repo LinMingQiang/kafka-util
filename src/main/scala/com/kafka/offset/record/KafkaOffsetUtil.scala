@@ -62,7 +62,7 @@ private[kafka] class KafkaOffsetUtil(
     day: String,
     hour: String,
     topics: Set[String],
-    overWrite: Boolean = true
+    overWrite: Boolean = true   //如果存在了是否覆盖重写
     ): Either[String, Boolean] = {
     val offsetPath = consumerPath + "/" + day + "/" + hour
     val recordTopic = if (topics == null || topics.isEmpty) {
@@ -143,9 +143,9 @@ private[kafka] class KafkaOffsetUtil(
    * @func：获取某一天，某个topic的offset
    */
   def getDayHourOffsetsFromZK(
+		  topics: Set[String],
     day: String,
     hour: String,
-    topics: Set[String],
     parentPath: String = consumerPath): Either[String, Map[TopicAndPartition, Long]] = {
     val topicOffsets = topics.flatMap { topic =>
       val topicOffset = getDayHourOffsetFromZK(topic, day, hour, parentPath)
@@ -160,7 +160,7 @@ private[kafka] class KafkaOffsetUtil(
    * @time 2018-04-13
    * @func：获取某一天，某个topic的offset
    */
-  def getDayOffsetFromZK(
+  private def getDayOffsetFromZK(
     topic: String,
     day: String,
     parentPath: String = consumerPath): Either[String, Map[TopicAndPartition, Long]] = {
@@ -181,7 +181,7 @@ private[kafka] class KafkaOffsetUtil(
    * @time 2018-04-13
    * @func：获取某一天，某个topic的offset
    */
-  def getDayHourOffsetFromZK(
+  private def getDayHourOffsetFromZK(
     topic: String,
     day: String,
     hour: String,
