@@ -89,7 +89,7 @@ private[kafka] class KafkaOffsetUtil(
    * 对应的结果是
    * /consumer/groupid/topicname/partition/offset
    */
-  def recordOffsetToZK(
+  private def recordOffsetToZK(
     topic: String,
     offset: Map[TopicAndPartition, Long],
     path: String,
@@ -143,7 +143,7 @@ private[kafka] class KafkaOffsetUtil(
    * @func：获取某一天，某个topic的offset
    */
   def getDayHourOffsetsFromZK(
-		  topics: Set[String],
+		topics: Set[String],
     day: String,
     hour: String,
     parentPath: String = consumerPath): Either[String, Map[TopicAndPartition, Long]] = {
